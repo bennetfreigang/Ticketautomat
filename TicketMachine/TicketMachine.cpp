@@ -57,8 +57,8 @@ void TicketMachine::selectStartStop() {
     TUIMenu menu("Price per Stop: " + std::to_string(currentTram.pricePerStop) + " Geld\nStart:");
 
     // Step 1: Add all stops of the current tram as menu options
-    for (int i = 0; i < currentTram.stops.size(); i++) {
-        const std::string stop = currentTram.stops.at(i);
+    for (size_t i = 0; i < currentTram.stops.size(); ++i) {
+        const std::string& stop = currentTram.stops.at(i);
         menu.addOption(stop, [this, i]() {
             // Update the selected start index when a stop is chosen
             selectedStartIndex = i;

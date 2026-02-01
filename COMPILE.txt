@@ -1,6 +1,9 @@
 Kompilieren des Hauptprogramms:
 clang++ main.cpp Payment/Payment.cpp TicketMachine/TicketMachine.cpp TramParser/TramParser.cpp TUI/TUIMenu/TUIMenu.cpp TUI/TUIInputField/TUIInputField.cpp -o ticketautomat -std=c++17 -Wall -Wextra
 
+Ausführen des Hauptprogramms:
+./ticketautomat
+
 Kompilieren der Tests:
 
 Payment Test:
