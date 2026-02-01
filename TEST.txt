@@ -1,0 +1,24 @@
+Testdokumentation
+-----------------
+
+Ich habe für die drei Hauptmodule jeweils eigene Testprogramme geschrieben.
+
+1. test_payment.cpp
+   - Testet die Berechnung des Wechselgelds (positiv/negativ).
+   - Prüft, ob die richtigen Scheine zurückgegeben werden (Greedy-Algo).
+   - Prüft Exception, wenn der Automat leer ist.
+
+2. test_tramparser.cpp
+   - Erstellt temporäre Testdateien im data/ Ordner.
+   - Prüft, ob Linienname, Preis und Haltestellen korrekt eingelesen werden.
+   - Testet Verhalten bei nicht existierenden Dateien.
+
+3. test_ticketmachine.cpp
+   - Testet die Integration der Komponenten.
+   - Simuliert einen Ticketdruck.
+   - Prüft Preisberechnung für Strecken.
+
+Manuelle Tests:
+Zusätzlich habe ich das Programm manuell getestet (main.cpp), um die
+Menüführung und die Eingaben (z.B. Buchstaben statt Zahlen beim Geld)
+zu überprüfen.

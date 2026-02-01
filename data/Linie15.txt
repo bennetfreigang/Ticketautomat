@@ -1,0 +1,38 @@
+Linie 15
+6
+Miltitz
+Saturnstraße
+Jupiterstraße
+Plovdiver Straße
+Kiewer Straße
+Am Kirschberg
+Schönauer Ring
+Parkallee
+Grünauer Allee
+Saarländer Straße
+Credéstraße
+Lindenau, Bushof
+Henriettenstraße
+Lützner/Merseburger Straße
+Lindenauer Markt
+Angerbrücke, Straßenbahnhof
+Sportforum Süd
+Waldplatz
+Leibnizstraße
+Goerdelerring, Gleis 3
+Hauptbahnhof, Gleis 4
+Augustusplatz
+Johannisplatz
+Gutenbergplatz
+Ostplatz
+Witzgallstraße
+Technisches Rathaus
+Altes Messegelände
+Naunhofer Straße
+Völkerschlachtdenkmal
+Südfriedhof
+Prager/Russenstraße
+Probstheida
+Franzosenallee
+Roseggerstraße
+Meusdorf
