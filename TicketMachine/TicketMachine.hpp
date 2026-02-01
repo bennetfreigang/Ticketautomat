@@ -37,5 +37,6 @@ private:
     [[nodiscard]] int calculatePrice() const;
     [[nodiscard]] std::string stopAtIndex(size_t index) const;
     static std::string getCurrentDate();
-    static int processPayment(int ticketPrice);
+    static int processPayment(const TicketData& ticket);
+    static int calculateChangeSum(const std::map<int, int>& change);
 };

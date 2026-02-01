@@ -27,6 +27,7 @@ private:
 public:
     explicit TUIMenu(std::string title);
     void addOption(std::string title, std::function<void()> action);
+    void addCancelationOption();
     void run();
     static void waitForKey();
 };

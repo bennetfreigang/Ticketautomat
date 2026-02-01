@@ -38,6 +38,8 @@ void TicketMachine::selectTram() {
             this->selectedDestinationIndex = 0;
         });
     }
+    // Add cancel option
+    menu.addCancelationOption();
     // Step 3: Run the menu and wait for user selection
     menu.run();
 }
@@ -64,6 +66,8 @@ void TicketMachine::selectStartStop() {
             selectedStartIndex = i;
         });
     }
+    // Add cancel option
+    menu.addCancelationOption();
     // Step 2: Display the menu to the user
     menu.run();
 }
@@ -91,6 +95,8 @@ void TicketMachine::selectDestinationStop() {
             this->selectedDestinationIndex = i;
         });
     }
+    // Add cancel option
+    menu.addCancelationOption();
     // Step 2: Display the menu to the user
     menu.run();
 }
@@ -113,32 +119,42 @@ TicketData TicketMachine::buyTicket() {
     ticket.date = getCurrentDate();
     ticket.price = calculatePrice();
 
-    const int insertedAmount = processPayment(ticket.price);
+    const int insertedAmount = processPayment(ticket);
     const int changeAmount = Payment::calculateChange(ticket.price, insertedAmount);
-    ticket.change = payment.payOutChange(changeAmount);
+    ticket.change = payment.payOutChange(std::abs(changeAmount));
 
     return ticket;
 }
 
 /**
  * @brief Handles the payment interaction loop.
- * @param ticketPrice The price the user needs to pay.
+ * @param ticket The ticket data containing price and journey details.
  * @return The total valid amount inserted by the user.
  */
-int TicketMachine::processPayment(int ticketPrice) {
+int TicketMachine::processPayment(const TicketData& ticket) {
     while (true) {
-        std::string prompt = "Price: " + std::to_string(ticketPrice) + " Geld\nAmount paid in: ";
+        std::cout << "\n--- Payment ---\n";
+        std::cout << "Tram: " << ticket.tram << "\n";
+        std::cout << "From: " << ticket.startStop << "\n";
+        std::cout << "To:   " << ticket.destinationStop << "\n";
+        std::cout << "Date: " << ticket.date << "\n";
+        std::cout << "----------------\n";
+        std::cout << "[ESC] Cancel payment\n";
+        
+        std::string prompt = "Price: " + std::to_string(ticket.price) + " Geld\nAmount paid in: ";
         try {
             int inserted = std::stoi(TUIInputField::getInput(prompt));
             if (inserted < 0) {
                 std::cerr << "Amount cannot be negative. Please try again.\n\n";
                 continue;
             }
-            if (inserted < ticketPrice) {
-                std::cerr << "Insufficient funds! Needed: " << ticketPrice << "\n\n";
+            if (inserted < ticket.price) {
+                std::cerr << "Insufficient funds! Needed: " << ticket.price << "\n\n";
                 continue;
             }
             return inserted;
+        } catch (const InputCancelledException&) {
+            throw std::runtime_error("Purchase cancelled by user.");
         } catch (const std::exception&) {
             std::cerr << "Invalid input! Please enter a valid number.\n\n";
         }
@@ -207,7 +223,7 @@ void TicketMachine::printTicket(const TicketData& ticket) {
     std::cout << "Destination:   " << ticket.destinationStop << '\n';
     std::cout << "Price:         " << ticket.price << " Geld\n";
     // Print breakdown of change dispensed
-    std::cout << "Change:\n";
+    std::cout << "Change:        " << calculateChangeSum(ticket.change) << " Geld\n";
     for (const auto& [value, count] : ticket.change) {
         std::cout << "  " << count << " x " << value << " Geld" << '\n';
     }
@@ -232,4 +248,12 @@ std::string TicketMachine::getCurrentDate() {
     std::ostringstream oss;
     oss << std::put_time(&localTime, "%Y-%m-%d");
     return oss.str();
+}
+
+int TicketMachine::calculateChangeSum(const std::map<int, int> &change) {
+    int sum = 0;
+    for (const auto& [value, count] : change) {
+        sum += value * count;
+    }
+    return sum;
 }

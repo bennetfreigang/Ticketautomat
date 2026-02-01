@@ -3,6 +3,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <utility>
+#include <cstdlib>
 
 /**
  * @brief Constructs a new TUIMenu instance.
@@ -25,6 +26,22 @@ TUIMenu::TUIMenu(std::string title) : menuTitle(std::move(title)) {}
  */
 void TUIMenu::addOption(std::string title, std::function<void()> action) {
     options.push_back({std::move(title), std::move(action)});
+}
+
+/**
+ * @brief Adds a standard cancellation option to the menu.
+ *
+ * Inserts a menu entry labeled "Cancel" that immediately terminates
+ * the program when selected.
+ *
+ * The cancellation action prints a short message to the console and
+ * exits the program with status code 0.
+ */
+void TUIMenu::addCancelationOption() {
+    addOption("Cancel", []() {
+        std::cout << "Program terminated by user.\n";
+        std::exit(0);
+    });
 }
 
 /**

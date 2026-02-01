@@ -3,12 +3,12 @@
 #include <cassert>
 
 void test_calc() {
-    // Zu wenig bezahlt
-    assert(Payment::calculateChange(10, 20) == 10); // fehlen 10
+    // Zu wenig bezahlt (Preis 20, Gegeben 10 -> Fehlen 10)
+    assert(Payment::calculateChange(20, 10) == 10);
     // Passend
     assert(Payment::calculateChange(20, 20) == 0);
-    // Rückgeld
-    assert(Payment::calculateChange(25, 20) == -5); // 5 zurück
+    // Rückgeld (Preis 20, Gegeben 25 -> -5 Rückgeld)
+    assert(Payment::calculateChange(20, 25) == -5);
 }
 
 void test_payout() {
