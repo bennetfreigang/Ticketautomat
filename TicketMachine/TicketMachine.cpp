@@ -111,6 +111,9 @@ TicketData TicketMachine::buyTicket() {
     if (currentTram.stops.empty()) {
         throw std::runtime_error("No tram selected! Please select a tram first.");
     }
+    if (selectedStartIndex == selectedDestinationIndex) {
+        throw std::runtime_error("Invalid stop selection! Please select different stops.");
+    }
 
     TicketData ticket;
     ticket.startStop = stopAtIndex(selectedStartIndex);
@@ -119,9 +122,26 @@ TicketData TicketMachine::buyTicket() {
     ticket.date = getCurrentDate();
     ticket.price = calculatePrice();
 
-    const int insertedAmount = processPayment(ticket);
-    const int changeAmount = Payment::calculateChange(ticket.price, insertedAmount);
-    ticket.change = payment.payOutChange(std::abs(changeAmount));
+    while (true) {
+        try {
+            const int insertedAmount = processPayment(ticket);
+            const int changeAmount = Payment::calculateChange(ticket.price, insertedAmount);
+            ticket.change = payment.payOutChange(std::abs(changeAmount));
+            return ticket;
+        } catch (const std::runtime_error& e) {
+            std::string errorMsg = e.what();
+            if (errorMsg == "Purchase cancelled by user.") {
+                throw;
+            }
+            if (errorMsg == "Change not available") {
+                std::cerr << "Wechselgeld nicht verfügbar! Bitte passend zahlen oder kleineren Betrag wählen.\n";
+                std::cout << "Drücken Sie eine Taste um fortzufahren...";
+                TUIMenu::waitForKey();
+                continue;
+            }
+            throw;
+        }
+    }
 
     return ticket;
 }
@@ -216,7 +236,6 @@ std::string TicketMachine::stopAtIndex(size_t index) const {
  * @param ticket The ticket data object to print.
  */
 void TicketMachine::printTicket(const TicketData& ticket) {
-    // Print ticket header and details
     std::cout << "\n=== TICKET ===\n";
     std::cout << "Line:          " << ticket.tram << '\n';
     std::cout << "Start:         " << ticket.startStop << '\n';

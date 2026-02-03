@@ -56,14 +56,14 @@ void TUIMenu::addCancelationOption() {
 void TUIMenu::setRawMode(bool enable) {
     static struct termios oldt, newt;
     if (enable) {
-        // Step 1: Save current terminal attributes to restore later
+        // Save current terminal attributes to restore later
         tcgetattr(STDIN_FILENO, &oldt);
         newt = oldt;
-        // Step 2: Disable canonical mode (line-by-line input) and echo
+        // Disable canonical mode (line-by-line input) and echo
         newt.c_lflag &= ~(ICANON | ECHO);
-        // Step 3: Apply new terminal attributes immediately
+        // Apply new terminal attributes
         tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-        // Step 4: Hide the cursor to improve UI appearance
+        // Hide the cursor to improve UI appearance
         std::cout << "\033[?25l" << std::flush; // Cursor off
     } else {
         // Restore saved terminal attributes
@@ -80,18 +80,18 @@ void TUIMenu::setRawMode(bool enable) {
  * The currently selected option is highlighted.
  */
 void TUIMenu::draw() const {
-    // Step 1: Clear the screen and move cursor to home position
+    // Clear the screen and move cursor to home position
     std::cout << "\033[H\033[J"; // Screen Clear
     
-    // Step 2: Render the menu title with cyan color
+    // Render the menu title with cyan color
     std::cout << "\033[1;36m" << menuTitle << "\033[0m\n";
     std::cout << "============================\n\n";
 
-    // Step 3: Loop over all options to render them
+    // Loop over all options to render them
     for (std::size_t i = 0; i < options.size(); ++i) {
         if (i == selected) {
-            // Highlight the selected option with a yellow bullet
-            std::cout << "  \033[1;33m● " << options[i].title << "\033[0m\n";
+            // Highlight the selected option with a cyan bullet
+            std::cout << "  \033[1;36m● " << options[i].title << "\033[0m\n";
         } else {
             // Render unselected options with a hollow bullet
             std::cout << "  ○ " << options[i].title << "\n";

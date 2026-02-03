@@ -16,19 +16,9 @@ Payment::Payment() {
  */
 std::map<int, int> Payment::payOutChange(const int& amount) {
     int remainingAmount = amount;
-
-    // Step 1: Determine which coins/bills to give as change
-    // This calculates the optimal set of coins/bills without modifying the actual stock yet
     std::map<int, int> payOut = takeFromChangeBox(remainingAmount);
-
-    // Step 2: Validate if the change could be given completely
-    // If remainingAmount is not 0, it means we didn't have enough small change
     validateRemainingAmount(remainingAmount);
-
-    // Step 3: Update the changeBox to subtract the coins/bills given
-    // Commits the transaction by removing the calculated items from inventory
     updateChangeBox(payOut);
-
     return payOut;
 }
 
@@ -37,11 +27,10 @@ std::map<int, int> Payment::payOutChange(const int& amount) {
  * @param ticketPrice Price of the ticket.
  * @param insertedAmount Amount inserted by the user.
  * @return The remaining amount to pay (positive) or change to return (negative logic depending on usage).
- * @note In the current implementation, this returns (Price - Inserted). 
+ * @note In the current implementation, this returns (Price - Inserted).
  *       If positive, more money is needed. If negative, change is due.
  */
 int Payment::calculateChange(const int &ticketPrice, const int &insertedAmount) {
-    // Simply subtract inserted amount from the price
     return ticketPrice - insertedAmount;
 }
 
@@ -60,7 +49,7 @@ void Payment::reset() {
 std::map<int, int> Payment::takeFromChangeBox(int& remainingAmount) {
     std::map<int, int> payOut;
 
-    // Iterate over all coin/bill denominations, starting from largest (due to std::greater in map definition)
+    // Iterate over every note denominations, starting from largest
     for (const auto& [value, available] : changeBox) {
         int takenNotes = 0;
 
@@ -72,14 +61,14 @@ std::map<int, int> Payment::takeFromChangeBox(int& remainingAmount) {
             takenNotes++;
         }
 
-        // If we took any notes/coins of this value, record it in the payout map
+        // If we took any notes of this value, record it in the payout map
         if (takenNotes > 0) {
             payOut[value] = takenNotes;
         }
 
         // Optimization: Stop processing if the entire amount has been covered
         if (remainingAmount == 0) {
-            break; 
+            break;
         }
     }
 
@@ -95,7 +84,7 @@ std::map<int, int> Payment::takeFromChangeBox(int& remainingAmount) {
 void Payment::validateRemainingAmount(const int& remainingAmount) {
     if (remainingAmount > 0) {
         // This case implies we couldn't give enough change back, or the logic for input validation failed earlier
-        throw std::runtime_error("Change not available"); // More payment needed than available coins
+        throw std::runtime_error("Change not available");
     }
 }
 
@@ -106,7 +95,7 @@ void Payment::validateRemainingAmount(const int& remainingAmount) {
 void Payment::updateChangeBox(const std::map<int, int>& payOut) {
     // Iterate through the calculated payout and decrement the internal stock
     for (const auto& [value, count] : payOut) {
-        changeBox[value] -= count; // Subtract the coins/bills that were given out
+        changeBox[value] -= count;
     }
 }
 
@@ -115,7 +104,6 @@ void Payment::updateChangeBox(const std::map<int, int>& payOut) {
  * For simplicity, every denomination starts with 2 units.
  */
 void Payment::setChangeBox() {
-    // Initialize stock for each denomination
     changeBox[17] = 2;
     changeBox[11] = 2;
     changeBox[7]  = 2;

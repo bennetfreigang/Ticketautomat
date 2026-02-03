@@ -3,6 +3,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <cctype>
+#include <fcntl.h>
 
 /**
  * @brief Enables or disables terminal raw mode.
@@ -42,14 +43,23 @@ std::string TUIInputField::getInput(const std::string &prompt) {
 
     char c;
     while (read(STDIN_FILENO, &c, 1) == 1) {
-        if (c == '\033') { // ESC
-            // Check if it's an escape sequence (like arrow keys) or just ESC
-            // This is a simple check: we assume if ESC is pressed, it's a cancel
-            // unless we can immediately read more.
-            // For now, let's treat ESC as Cancel.
-            setRawMode(false);
-            std::cout << std::endl;
-            throw InputCancelledException();
+        if (c == '\033') { // ESC or Escape Sequence
+            char seq;
+            int flags = fcntl(STDIN_FILENO, F_GETFL);
+            fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
+            ssize_t n = read(STDIN_FILENO, &seq, 1);
+            fcntl(STDIN_FILENO, F_SETFL, flags); // Restore blocking
+
+            if (n > 0 && seq == '[') {
+                // It is an escape sequence (e.g. arrow key), consume the next char
+                read(STDIN_FILENO, &seq, 1);
+                continue; // Ignore
+            } else {
+                // Standalone ESC
+                setRawMode(false);
+                std::cout << std::endl;
+                throw InputCancelledException();
+            }
         } else if (c == '\n' || c == '\r') { // Enter
             setRawMode(false);
             std::cout << std::endl;
@@ -60,7 +70,7 @@ std::string TUIInputField::getInput(const std::string &prompt) {
                 std::cout << "\b \b" << std::flush;
             }
         } else {
-            // Only accept printable characters (optional)
+            // Only accept printable characters
             if (isprint(c)) {
                 input += c;
                 std::cout << c << std::flush;

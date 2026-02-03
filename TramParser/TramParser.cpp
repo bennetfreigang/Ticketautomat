@@ -15,23 +15,16 @@
  * @throws std::runtime_error If the file cannot be opened.
  */
 TramData TramParser::parseTramFile(const std::string& filename) {
-    // Step 1: Validate input filename
     validateFilename(filename);
-    
-    // Step 2: Construct the full path to the data file
     std::string path = createFilePath(filename);
-
-    // Step 3: Attempt to open the file
     std::ifstream file(path);
+
     if (!file.is_open()) {
         throw std::runtime_error("Could not open file: " + path);
     }
 
-    // Step 4: Create a data object and delegate parsing to extractData
     TramData data;
     extractData(file, data);
-
-    // Step 5: Close file resources
     file.close();
     return data;
 }
@@ -78,7 +71,7 @@ std::vector<FileEntry> TramParser::getAvailableLines(const std::string& folderPa
     std::cout << "Suche Tramlinien in: " << folderPath << std::endl;
 
     try {
-        // Step 1: Verify the directory exists and is valid
+        // Verify the directory exists and is valid
         if (!std::filesystem::exists(folderPath)) {
             std::cerr << "Warnung: Verzeichnis existiert nicht: " << folderPath << std::endl;
             return entries;
@@ -89,7 +82,7 @@ std::vector<FileEntry> TramParser::getAvailableLines(const std::string& folderPa
             return entries;
         }
 
-        // Step 2: Iterate through files in the directory
+        // Iterate through files in the directory
         for (const auto& entry : std::filesystem::directory_iterator(folderPath)) {
             // Filter for .txt files
             if (entry.path().extension() == ".txt") {
@@ -123,12 +116,12 @@ std::vector<FileEntry> TramParser::getAvailableLines(const std::string& folderPa
  * @throws std::runtime_error If reading critical data (name, price) fails.
  */
 void TramParser::extractData(std::ifstream& file, TramData& data) {
-    // Step 1: Read the tram line name (first line)
+    // Read the tram line name (first line)
     if (!std::getline(file, data.name)) {
         throw std::runtime_error("Failed to read tram line name");
     }
 
-    // Step 2: Read the price per stop (second line, numeric)
+    //  Read the price per stop (second line, numeric)
     if (!(file >> data.pricePerStop)) {
         throw std::runtime_error("Failed to read price per stop");
     }
@@ -137,7 +130,7 @@ void TramParser::extractData(std::ifstream& file, TramData& data) {
     std::string dummy;
     std::getline(file, dummy);
 
-    // Step 3: Read all subsequent lines as tram stops
+    // Read all subsequent lines as tram stops
     std::string stop;
     while (std::getline(file, stop)) {
         if (!stop.empty()) {

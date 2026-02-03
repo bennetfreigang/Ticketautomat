@@ -17,10 +17,10 @@ void test_parser() {
 
     // Testdatei anlegen
     std::string content = "Linie 10\n5\nStop A\nStop B\nStop C";
-    write_file("linie10.txt", content);
+    write_file("Linie10.txt", content);
 
     // Einlesen testen
-    TramData data = TramParser::parseTramFile("linie10");
+    TramData data = TramParser::parseTramFile("Linie10");
 
     assert(data.name == "Linie 10");
     assert(data.pricePerStop == 5);

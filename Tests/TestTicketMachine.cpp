@@ -40,10 +40,6 @@ void test_full_process() {
 
     createTestTramFile("test_tram", "Testbahn", 2, {"StopA", "StopB", "StopC"});
 
-    // Da die Klasse interaktiv ist (cin/cout), können wir hier nur schwer
-    // den vollen Ablauf automatisieren ohne cin-Redirection.
-    // Wir testen stattdessen die Logik-Komponenten, die TicketMachine nutzt.
-
     TramData tram = TramParser::parseTramFile("test_tram");
     assert(tram.pricePerStop == 2);
     assert(tram.stops.size() == 3);
