@@ -1,4 +1,5 @@
 #include "Payment.hpp"
+#include <stdexcept>
 
 /**
  * @brief Default constructor.
