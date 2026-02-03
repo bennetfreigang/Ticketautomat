@@ -1,4 +1,4 @@
-#include "../Payment/Payment.hpp"
+#include "Payment.hpp"
 #include <iostream>
 #include <cassert>
 

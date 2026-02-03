@@ -1,5 +1,5 @@
-#include "TicketMachine/TicketMachine.hpp"
-#include "TUI/TUIMenu/TUIMenu.hpp"
+#include "TicketMachine.hpp"
+#include "TUIMenu.hpp"
 #include <iostream>
 
 void runTicketMachineCycle() {

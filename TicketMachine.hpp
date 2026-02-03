@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include "../TramParser/TramParser.hpp"
-#include "../Payment/Payment.hpp"
+#include "TramParser.hpp"
+#include "Payment.hpp"
 #include <map>
 
 struct TicketData {

@@ -1,8 +1,8 @@
 #include "TicketMachine.hpp"
-#include "../TramParser/TramParser.hpp"
-#include "../Payment/Payment.hpp"
-#include "../TUI/TUIMenu/TUIMenu.hpp"
-#include "../TUI/TUIInputField/TUIInputField.hpp"
+#include "TramParser.hpp"
+#include "Payment.hpp"
+#include "TUIMenu.hpp"
+#include "TUIInputField.hpp"
 #include <string>
 #include <vector>
 #include <iostream>

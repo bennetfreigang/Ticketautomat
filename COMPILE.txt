@@ -1,5 +1,5 @@
 Kompilieren des Hauptprogramms:
-clang++ main.cpp Payment/Payment.cpp TicketMachine/TicketMachine.cpp TramParser/TramParser.cpp TUI/TUIMenu/TUIMenu.cpp TUI/TUIInputField/TUIInputField.cpp -o ticketautomat -std=c++17 -Wall -Wextra
+clang++ main.cpp Payment.cpp TicketMachine.cpp TramParser.cpp TUIMenu.cpp TUIInputField.cpp -o ticketautomat -std=c++17 -Wall -Wextra
 
 Ausführen des Hauptprogramms:
 ./ticketautomat
@@ -7,10 +7,10 @@ Ausführen des Hauptprogramms:
 Kompilieren der Tests:
 
 Payment Test:
-clang++ test_payment.cpp Payment/Payment.cpp -o test_payment -std=c++17
+clang++ test_payment.cpp Payment.cpp -o test_payment -std=c++17
 
 TramParser Test:
-clang++ test_tramparser.cpp TramParser/TramParser.cpp -o test_tramparser -std=c++17
+clang++ test_tramparser.cpp TramParser.cpp -o test_tramparser -std=c++17
 
 TicketMachine Test:
-clang++ test_ticketmachine.cpp TicketMachine/TicketMachine.cpp TramParser/TramParser.cpp Payment/Payment.cpp TUI/TUIMenu/TUIMenu.cpp TUI/TUIInputField/TUIInputField.cpp -o test_ticketmachine -std=c++17
+clang++ test_ticketmachine.cpp TicketMachine.cpp TramParser.cpp Payment.cpp TUIMenu.cpp TUIInputField.cpp -o test_ticketmachine -std=c++17
