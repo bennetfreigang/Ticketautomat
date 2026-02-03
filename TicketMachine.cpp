@@ -237,11 +237,11 @@ std::string TicketMachine::stopAtIndex(size_t index) const {
  */
 void TicketMachine::printTicket(const TicketData& ticket) {
     std::cout << "\n=== TICKET ===\n";
-    std::cout << "Line:          " << ticket.tram << '\n';
-    std::cout << "Start:         " << ticket.startStop << '\n';
-    std::cout << "Destination:   " << ticket.destinationStop << '\n';
+    std::cout << "Tram:          " << ticket.tram << "\n";
+    std::cout << "From:          " << ticket.startStop << "\n";
+    std::cout << "To:            " << ticket.destinationStop << "\n";
+    std::cout << "Date:          " << ticket.date << "\n";
     std::cout << "Price:         " << ticket.price << " Geld\n";
-    // Print breakdown of change dispensed
     std::cout << "Change:        " << calculateChangeSum(ticket.change) << " Geld\n";
     for (const auto& [value, count] : ticket.change) {
         std::cout << "  " << count << " x " << value << " Geld" << '\n';
