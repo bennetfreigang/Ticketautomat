@@ -135,7 +135,7 @@ TicketData TicketMachine::buyTicket() {
             }
             if (errorMsg == "Change not available") {
                 std::cerr << "No change available! Please pay with the exact amount or choose a smaller amount.\n";
-                std::cout << "Press any key to restart...";
+                std::cout << "Press any key to restart...\n";
                 TUIMenu::waitForKey();
                 continue;
             }
