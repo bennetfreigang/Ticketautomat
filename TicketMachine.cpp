@@ -17,8 +17,8 @@
  * @throws std::runtime_error If no tram files are found.
  */
 void TicketMachine::selectTram() {
-    // Step 1: Retrieve all available tram configuration files from the "data" directory
-    std::vector<FileEntry> entries = TramParser::getAvailableLines("data");
+    // Step 1: Retrieve all available tram configuration files from the current directory
+    std::vector<FileEntry> entries = TramParser::getAvailableLines(".");
 
     // Check if any tram lines were found
     if (entries.empty()) {

@@ -84,8 +84,9 @@ std::vector<FileEntry> TramParser::getAvailableLines(const std::string& folderPa
 
         // Iterate through files in the directory
         for (const auto& entry : std::filesystem::directory_iterator(folderPath)) {
-            // Filter for .txt files
-            if (entry.path().extension() == ".txt") {
+            // Filter for .txt files that start with "Linie"
+            std::string fileName = entry.path().filename().string();
+            if (entry.path().extension() == ".txt" && fileName.rfind("Linie", 0) == 0) {
                 std::string baseName = entry.path().stem().string();
                 std::cout << "  Gefunden: " << baseName << std::endl;
                 
@@ -145,10 +146,10 @@ void TramParser::extractData(std::ifstream& file, TramData& data) {
 /**
  * @brief Constructs the relative path for the configuration file.
  * @param filename The base name of the file.
- * @return A string representing "data/filename.txt".
+ * @return A string representing "filename.txt".
  */
 std::string TramParser::createFilePath(const std::string &filename) {
-    return "data/" + filename + ".txt";
+    return filename + ".txt";
 }
 
 /**
