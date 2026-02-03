@@ -134,8 +134,8 @@ TicketData TicketMachine::buyTicket() {
                 throw;
             }
             if (errorMsg == "Change not available") {
-                std::cerr << "Wechselgeld nicht verfügbar! Bitte passend zahlen oder kleineren Betrag wählen.\n";
-                std::cout << "Drücken Sie eine Taste um fortzufahren...";
+                std::cerr << "No change available! Please pay with the exact amount or choose a smaller amount.\n";
+                std::cout << "Press any key to restart...";
                 TUIMenu::waitForKey();
                 continue;
             }

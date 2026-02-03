@@ -12,11 +12,11 @@ void runTicketMachineCycle() {
         auto ticket = machine.buyTicket();
         TicketMachine::printTicket(ticket);
 
-        std::cout << "\nBeliebige Taste für neuen Kauf..." << std::endl;
+        std::cout << "\nPress any key to restart..." << std::endl;
         TUIMenu::waitForKey();
     } catch (const std::exception& e) {
-        std::cerr << "\nFehler: " << e.what() << std::endl;
-        std::cout << "Beliebige Taste zum Neustart..." << std::endl;
+        std::cerr << "\nError: " << e.what() << std::endl;
+        std::cout << "Press any key to restart..." << std::endl;
         TUIMenu::waitForKey();
     }
 }
