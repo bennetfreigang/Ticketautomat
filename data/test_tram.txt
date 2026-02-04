@@ -1,5 +1,0 @@
-Testbahn
-2
-StopA
-StopB
-StopC

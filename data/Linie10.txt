@@ -1,5 +1,0 @@
-Linie 10
-5
-Stop A
-Stop B
-Stop C
