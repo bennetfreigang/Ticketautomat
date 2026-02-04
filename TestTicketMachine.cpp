@@ -1,5 +1,5 @@
-#include "../TicketMachine/TicketMachine.hpp"
-#include "../TramParser/TramParser.hpp"
+#include "TicketMachine.hpp"
+#include "TramParser.hpp"
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -8,10 +8,7 @@
 // Hilfsfunktion für Testdaten
 void createTestTramFile(const std::string& filename, const std::string& lineName,
                         int pricePerStop, const std::vector<std::string>& stops) {
-    if (!std::filesystem::exists("data")) {
-        std::filesystem::create_directory("data");
-    }
-    std::ofstream file("data/" + filename + ".txt");
+    std::ofstream file(filename + ".txt");
     file << lineName << "\n" << pricePerStop << "\n";
     for (const auto& stop : stops) {
         file << stop << "\n";
@@ -48,7 +45,7 @@ void test_full_process() {
     int price = std::abs(0 - 2) * tram.pricePerStop;
     assert(price == 4);
 
-    std::filesystem::remove("data/test_tram.txt");
+    std::filesystem::remove("test_tram.txt");
     std::cout << "Logik-Tests OK." << std::endl;
 }
 
